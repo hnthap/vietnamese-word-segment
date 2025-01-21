@@ -27,5 +27,5 @@ classifiers = [
 license = { file = 'LICENSE' }
 
 [project.urls]
-Homepage = 'https://github.com/hnthap/vietnamese-word-segmentation'
-Issues = 'https://github.com/hnthap/vietnamese-word-segmentation/issues'
+Homepage = 'https://github.com/hnthap/vietnamese-word-segment'
+Issues = 'https://github.com/hnthap/vietnamese-word-segment/issues'
