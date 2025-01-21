@@ -87,24 +87,67 @@ class WordSegments(object):
     
     @classmethod
     def _load_model(cls, lang, *, device, truncate, max_length, torch_dtype):
+        
         assert lang == 'vi', \
             'Only Vietnamese is supported. lang can only be "vi".'
-        if not hasattr(cls, '_tokenizer'):
+        
+        reloads_tokenizer = cls._needs_reload_tokenizer(truncate, max_length)
+        reloads_model = cls._needs_reload_model(torch_dtype, max_length)
+        reloads_pipe = cls._needs_reload_pipe(device)
+
+        if reloads_tokenizer:
             cls._tokenizer = AutoTokenizer.from_pretrained(
                 'NlpHUST/vi-word-segmentation',
                 truncate=truncate,
                 model_max_length=max_length,
             )
-        if not hasattr(cls, '_model'):
+            cls.truncate = truncate
+            cls.max_length = max_length
+
+        if reloads_model:
             cls._model = AutoModelForTokenClassification.from_pretrained(
                 'NlpHUST/vi-word-segmentation',
                 torch_dtype=torch_dtype,
                 max_length=max_length,
             )
-        if not hasattr(cls, '_pipe'):
+            cls.torch_dtype = torch_dtype
+            cls.max_length = max_length
+
+        if reloads_pipe or reloads_tokenizer or reloads_model:
             cls._pipe = pipeline(
                 'token-classification',
                 model=cls._model,
                 tokenizer=cls._tokenizer,
                 device=device,
             )
+            cls.device = device
+
+
+    @classmethod
+    def _needs_reload_tokenizer(cls, truncate, max_length):
+        return (
+            not hasattr(cls, '_tokenizer')
+            or not hasattr(cls, 'truncate')
+            or cls.truncate != truncate
+        )
+
+
+    @classmethod
+    def _needs_reload_model(cls, torch_dtype, max_length):
+        return (
+            not hasattr(cls, '_model')
+            or not hasattr(cls, 'torch_dtype')
+            or cls.torch_dtype != torch_dtype
+            or not hasattr(cls, 'max_length')
+            or cls.max_length != max_length
+        )
+
+    
+    @classmethod
+    def _needs_reload_pipe(cls, device):
+        return (
+            not hasattr(cls, '_pipe')
+            or not hasattr(cls, 'device')
+            or cls.device != device
+        )
+

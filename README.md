@@ -31,6 +31,8 @@ for segments in segments_list:
     print(' '.join(segments))
 ```
 
+The output would be:
+
 ```text
 tất_cả mọi người đều có quyền sống , quyền tự_chủ và quyền an_toàn cho cá_nhân .
 không ai có_thể bị bắt làm nô_lệ hoặc nô_dịch ; chế_độ nô_lệ và việc buôn nô_lệ bị cấm dưới mọi hình_thức .
