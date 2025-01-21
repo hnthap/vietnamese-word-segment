@@ -1,0 +1,31 @@
+# type: ignore
+
+[build-system]
+requires = ['setuptools >= 61.0']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'vwsegment'
+version = '0.0.1'
+dependencies = [
+    'transformers',
+    'torch >= 2.0',
+]
+authors = [
+    { name = 'hnthap from GitHub', email = '21521457@gm.uit.edu.vn' },
+]
+description = 'A wrapper around the Vietnamese word segmentation model from https://huggingface.co/NlpHUST/vi-word-segmentation.'
+readme = 'README.md'
+requires-python = ">= 3.10"
+classifiers = [
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Operating System :: OS Independent',
+]
+license = { file = 'LICENSE' }
+
+[project.urls]
+Homepage = 'https://github.com/hnthap/vietnamese-word-segmentation'
+Issues = 'https://github.com/hnthap/vietnamese-word-segmentation/issues'
