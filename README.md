@@ -8,6 +8,12 @@ The requirements are:
 - `torch` >= 2.0
 - `transformers`
 
+Install with:
+
+```bash
+pip install git+https://github.com/hnthap/vietnamese-word-segment
+```
+
 Example code:
 
 ```python
