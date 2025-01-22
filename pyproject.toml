@@ -6,7 +6,7 @@ build-backend = 'setuptools.build_meta'
 
 [project]
 name = 'vwsegment'
-version = '0.0.1'
+version = '0.0.3'
 dependencies = [
     'transformers',
     'torch >= 2.0',

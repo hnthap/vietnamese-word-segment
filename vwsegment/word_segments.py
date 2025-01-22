@@ -1,5 +1,3 @@
-from typing import Literal
-
 from transformers import (
     AutoModelForTokenClassification,
     AutoTokenizer,
@@ -12,7 +10,6 @@ class WordSegments(object):
     def __init__(
         self,
         texts: str | list[str],
-        lang: Literal['vi']='vi',
         *,
         case=False,
         device=None,
@@ -22,34 +19,21 @@ class WordSegments(object):
         batch_size=128
     ):
         '''
-        Initialize ViWordSegments object with given texts and optional
-        parameters.
+        Initialize ViWordSegments object with given texts and optional parameters.
 
         Params:
-            texts (str or list[str]):
-                The input text(s) to be segmented.
-            lang (Literal['vi'], optional):
-                Language of the text(s). Default is 'vi'.
-            case (bool, optional):
-                If True, preserve the original case of words; lowercase all,
-                otherwise. Default is False.
-            device (str, optional):
-                The device to run the model on. If None, use the default
-                device.
-            truncate (bool, optional):
-                If True, truncate the input to max_length. Default is True.
-            max_length (int, optional):
-                The maximum length of the input text. Default is 512.
-            torch_dtype (str, optional):
-                The data type for the model's weights. Default is 'float16'.
-            batch_size (int, optional):
-                The batch size for processing texts. Default is 128.
+            texts (str or list[str]): The input text(s) to be segmented.
+            case (bool, optional): If True, preserve the original case of words; lowercase all, otherwise. Default is False.
+            device (str, optional): The device to run the model on. If None, use the default device.
+            truncate (bool, optional): If True, truncate the input to max_length. Default is True.
+            max_length (int, optional): The maximum length of the input text. Default is 512.
+            torch_dtype (str, optional): The data type for the model's weights. Default is 'float16'.
+            batch_size (int, optional): The batch size for processing texts. Default is 128.
 
         Returns:
             None
         '''
-        self.lang = lang
-        self._load_model(lang, device=device, truncate=truncate,
+        self._load_model(device=device, truncate=truncate,
                          max_length=max_length, torch_dtype=torch_dtype)
         if isinstance(texts, str):
             texts = [texts]
@@ -86,10 +70,7 @@ class WordSegments(object):
 
     
     @classmethod
-    def _load_model(cls, lang, *, device, truncate, max_length, torch_dtype):
-        
-        assert lang == 'vi', \
-            'Only Vietnamese is supported. lang can only be "vi".'
+    def _load_model(cls, *, device, truncate, max_length, torch_dtype):
         
         reloads_tokenizer = cls._needs_reload_tokenizer(truncate, max_length)
         reloads_model = cls._needs_reload_model(torch_dtype, max_length)
